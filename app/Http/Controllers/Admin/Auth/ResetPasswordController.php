@@ -9,7 +9,7 @@ class ResetPasswordController extends Controller
 {
     public function createNewPassword()
     {
-        //
+        return view('admin.auth.create-new-password');
     }
 
     public function updateNewPassword()

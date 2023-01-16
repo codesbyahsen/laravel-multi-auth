@@ -1,20 +1,22 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\StudentAuthentication\RegisterController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\StudentAuthentication\LoginController;
 use App\Http\Controllers\StudentAuthentication\LogoutController;
-use App\Http\Controllers\StudentAuthentication\ForgotPasswordController;
+use App\Http\Controllers\StudentAuthentication\RegisterController;
 use App\Http\Controllers\StudentAuthentication\ResetPasswordController;
+use App\Http\Controllers\StudentAuthentication\ForgotPasswordController;
 use App\Http\Controllers\Admin\Auth\LoginController as AdminLoginController;
 use App\Http\Controllers\Admin\Auth\LogoutController as AdminLogoutController;
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\TeacherAuthentication\LoginController as TeacherLoginController;
+use App\Http\Controllers\TeacherAuthentication\LogoutController as TeacherLogoutController;
 use App\Http\Controllers\Admin\Auth\ResetPasswordController as AdminResetPasswordController;
 use App\Http\Controllers\Admin\Auth\ForgotPasswordController as AdminForgotPasswordController;
 use App\Http\Controllers\TeacherAuthentication\RegisterController as TeacherRegisterController;
-use App\Http\Controllers\TeacherAuthentication\LoginController as TeacherLoginController;
-use App\Http\Controllers\TeacherAuthentication\LogoutController as TeacherLogoutController;
-use App\Http\Controllers\TeacherAuthentication\ForgotPasswordController as TeacherForgotPasswordController;
 use App\Http\Controllers\TeacherAuthentication\ResetPasswordController as TeacherResetPasswordController;
+use App\Http\Controllers\TeacherAuthentication\ForgotPasswordController as TeacherForgotPasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +29,10 @@ use App\Http\Controllers\TeacherAuthentication\ResetPasswordController as Teache
 |
 */
 
+Route::get('/', function () {
+    return view('welcome');
+});
+
 Route::prefix('admin')->group(function () {
     Route::get('/login', [AdminLoginController::class, 'login'])->name('admin.login');
     Route::post('/authenticate', [AdminLoginController::class, 'authenticate'])->name('admin.authenticate');
@@ -38,6 +44,7 @@ Route::prefix('admin')->group(function () {
     Route::post('/new-password', [AdminResetPasswordController::class, 'updateNewPassword'])->name('admin.update_new_password');
 
     Route::get('/logout', [AdminLogoutController::class, 'logout'])->name('admin.logout');
+    Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 });
 
 
@@ -54,6 +61,8 @@ Route::prefix('tr')->group(function () {
     Route::post('/new-password', [TeacherResetPasswordController::class, 'updateNewPassword'])->name('teacher.update_new_password');
 
     Route::get('/logout', [TeacherLogoutController::class, 'logout'])->name('admin.logout');
+
+    Route::get('/dashboard', [DashboardController::class, 'teacherDashboard'])->name('teacher.dashboard');
 });
 
 
@@ -69,3 +78,4 @@ Route::get('/new-password/{token}', [ResetPasswordController::class, 'createNewP
 Route::post('/new-password', [ResetPasswordController::class, 'updateNewPassword'])->name('update_new_password');
 
 Route::get('/logout', [LogoutController::class, 'logout'])->name('admin.logout');
+Route::get('/dashboard', [DashboardController::class, 'studentDashboard'])->name('dashboard');

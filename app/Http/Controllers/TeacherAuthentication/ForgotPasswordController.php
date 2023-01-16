@@ -9,7 +9,7 @@ class ForgotPasswordController extends Controller
 {
     public function passwordReset()
     {
-        //
+        return view('teacher.auth.reset-password');
     }
 
     public function sendResetLink()
