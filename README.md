@@ -1,2 +1,2 @@
 # Laravel Multi Auth
-Laravel multiple authentication with multiple guards, complete guidance.
+Laravel custom multiple authentication with multiple guards, complete guidance.
