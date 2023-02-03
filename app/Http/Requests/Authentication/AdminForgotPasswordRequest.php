@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\AdminLogin;
+namespace App\Http\Requests\Authentication;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AuthRequest extends FormRequest
+class AdminForgotPasswordRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,7 @@ class AuthRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => ['required', 'email', 'exists:admins,email'],
-            'password' => ['required']
+            'email' => ['required', 'email', 'exists:admins,email']
         ];
     }
 }

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\StudentRegister;
+namespace App\Http\Requests\Authentication;
 
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Foundation\Http\FormRequest;
 
-class StoreRequest extends FormRequest
+class StoreTeacherRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,7 +27,7 @@ class StoreRequest extends FormRequest
         return [
             'first_name' => ['required', 'min:3', 'max:15'],
             'last_name' => ['required', 'min:3', 'max:15'],
-            'email' => ['required', 'email', 'unique:users,email'],
+            'email' => ['required', 'email', 'unique:teachers,email'],
             'phone' => ['required'],
             'password' => [
                 'required',

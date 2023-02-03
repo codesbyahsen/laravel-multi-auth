@@ -2,21 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\StudentAuthentication\LoginController;
-use App\Http\Controllers\StudentAuthentication\LogoutController;
-use App\Http\Controllers\StudentAuthentication\RegisterController;
-use App\Http\Controllers\StudentAuthentication\ResetPasswordController;
-use App\Http\Controllers\StudentAuthentication\ForgotPasswordController;
-use App\Http\Controllers\Admin\Auth\LoginController as AdminLoginController;
-use App\Http\Controllers\Admin\Auth\LogoutController as AdminLogoutController;
-use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
-use App\Http\Controllers\TeacherAuthentication\LoginController as TeacherLoginController;
-use App\Http\Controllers\TeacherAuthentication\LogoutController as TeacherLogoutController;
-use App\Http\Controllers\Admin\Auth\ResetPasswordController as AdminResetPasswordController;
-use App\Http\Controllers\Admin\Auth\ForgotPasswordController as AdminForgotPasswordController;
-use App\Http\Controllers\TeacherAuthentication\RegisterController as TeacherRegisterController;
-use App\Http\Controllers\TeacherAuthentication\ResetPasswordController as TeacherResetPasswordController;
-use App\Http\Controllers\TeacherAuthentication\ForgotPasswordController as TeacherForgotPasswordController;
+use App\Http\Controllers\Authentication\LoginController;
+use App\Http\Controllers\Authentication\LogoutController;
+use App\Http\Controllers\Authentication\RegisterController;
+use App\Http\Controllers\Authentication\ForgotPasswordController;
+use App\Http\Controllers\Authentication\ResetPasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,48 +24,48 @@ Route::get('/', function () {
 });
 
 Route::prefix('admin')->group(function () {
-    Route::get('/login', [AdminLoginController::class, 'login'])->name('admin.login');
-    Route::post('/authenticate', [AdminLoginController::class, 'authenticate'])->name('admin.authenticate');
+    Route::get('/login', [LoginController::class, 'adminLogin'])->name('admin.login');
+    Route::post('/authenticate', [LoginController::class, 'adminAuthenticate'])->name('admin.authenticate');
 
-    Route::get('/password-reset', [AdminForgotPasswordController::class, 'passwordReset'])->name('admin.forgot_password');
-    Route::post('/password-reset', [AdminForgotPasswordController::class, 'sendResetLink'])->name('admin.send_reset_link');
+    Route::get('/password-reset', [ForgotPasswordController::class, 'adminResetPassword'])->name('admin.forgot_password');
+    Route::post('/password-reset', [ForgotPasswordController::class, 'sendAdminResetLink'])->name('admin.send_reset_link');
 
-    Route::get('/new-password/{token}', [AdminResetPasswordController::class, 'createNewPassword'])->name('admin.create_new_password');
-    Route::post('/new-password', [AdminResetPasswordController::class, 'updateNewPassword'])->name('admin.update_new_password');
+    Route::get('/new-password/{token}', [ResetPasswordController::class, 'createAdminNewPassword'])->name('admin.create_new_password');
+    Route::post('/new-password', [ResetPasswordController::class, 'updateAdminNewPassword'])->name('admin.update_new_password');
 
-    Route::get('/logout', [AdminLogoutController::class, 'logout'])->name('admin.logout');
+    Route::get('/logout', [LogoutController::class, 'adminLogout'])->name('admin.logout');
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 });
 
 
 Route::prefix('tr')->group(function () {
-    Route::get('/registration', [TeacherRegisterController::class, 'register'])->name('teacher.register');
-    Route::post('/registration', [TeacherRegisterController::class, 'store'])->name('teacher.store');
-    Route::get('/login', [TeacherLoginController::class, 'login'])->name('teacher.login');
-    Route::post('/authenticate', [TeacherLoginController::class, 'authenticate'])->name('teacher.authenticate');
+    Route::get('/registration', [RegisterController::class, 'teacherRegister'])->name('teacher.register');
+    Route::post('/registration', [RegisterController::class, 'storeTeacher'])->name('teacher.store');
+    Route::get('/login', [LoginController::class, 'teacherLogin'])->name('teacher.login');
+    Route::post('/authenticate', [LoginController::class, 'teacherAuthenticate'])->name('teacher.authenticate');
 
-    Route::get('/password-reset', [TeacherForgotPasswordController::class, 'passwordReset'])->name('teacher.forgot_password');
-    Route::post('/password-reset', [TeacherForgotPasswordController::class, 'sendResetLink'])->name('teacher.send_reset_link');
+    Route::get('/password-reset', [ForgotPasswordController::class, 'teacherResetPassword'])->name('teacher.forgot_password');
+    Route::post('/password-reset', [ForgotPasswordController::class, 'sendTeacherResetLink'])->name('teacher.send_reset_link');
 
-    Route::get('/new-password/{token}', [TeacherResetPasswordController::class, 'createNewPassword'])->name('teacher.create_new_password');
-    Route::post('/new-password', [TeacherResetPasswordController::class, 'updateNewPassword'])->name('teacher.update_new_password');
+    Route::get('/new-password/{token}', [ResetPasswordController::class, 'createTeacherNewPassword'])->name('teacher.create_new_password');
+    Route::post('/new-password', [ResetPasswordController::class, 'updateTeacherNewPassword'])->name('teacher.update_new_password');
 
-    Route::get('/logout', [TeacherLogoutController::class, 'logout'])->name('admin.logout');
+    Route::get('/logout', [LogoutController::class, 'teacherLogout'])->name('admin.logout');
 
     Route::get('/dashboard', [DashboardController::class, 'teacherDashboard'])->name('teacher.dashboard');
 });
 
 
-Route::get('/registration', [RegisterController::class, 'register'])->name('student.register');
-Route::post('/registration', [RegisterController::class, 'store'])->name('student.store');
-Route::get('/login', [LoginController::class, 'login'])->name('login');
-Route::post('/authenticate', [LoginController::class, 'authenticate'])->name('authenticate');
+Route::get('/registration', [RegisterController::class, 'studentRegister'])->name('student.register');
+Route::post('/registration', [RegisterController::class, 'storeStudent'])->name('student.store');
+Route::get('/login', [LoginController::class, 'studentLogin'])->name('login');
+Route::post('/authenticate', [LoginController::class, 'studentAuthenticate'])->name('authenticate');
 
-Route::get('/password-reset', [ForgotPasswordController::class, 'passwordReset'])->name('forgot_password');
-Route::post('/password-reset', [ForgotPasswordController::class, 'sendResetLink'])->name('send_reset_link');
+Route::get('/password-reset', [ForgotPasswordController::class, 'studentResetPassword'])->name('forgot_password');
+Route::post('/password-reset', [ForgotPasswordController::class, 'sendStudentResetLink'])->name('send_reset_link');
 
-Route::get('/new-password/{token}', [ResetPasswordController::class, 'createNewPassword'])->name('create_new_password');
-Route::post('/new-password', [ResetPasswordController::class, 'updateNewPassword'])->name('update_new_password');
+Route::get('/new-password/{token}', [ResetPasswordController::class, 'createStudentNewPassword'])->name('create_new_password');
+Route::post('/new-password', [ResetPasswordController::class, 'updateStudentNewPassword'])->name('update_new_password');
 
-Route::get('/logout', [LogoutController::class, 'logout'])->name('admin.logout');
+Route::get('/logout', [LogoutController::class, 'studentLogout'])->name('admin.logout');
 Route::get('/dashboard', [DashboardController::class, 'studentDashboard'])->name('dashboard');
